@@ -87,3 +87,82 @@ This structure allows for a modular approach, enabling easier maintenance, data 
 3. Run:
    ```bash
    python scrapping.py
+The script will:
+
+Fetch all available locations.
+Iterate over each location, scraping relevant data across all pages.
+Save the extracted records to scraped_data.xlsx.
+Display progress in your terminal (e.g., number of locations, pages, and entries processed).
+Note: If you want to limit the number of locations (for testing), you can modify the loop:
+
+python
+Copiar
+Editar
+for loc in locations[:5]:  # Example: scrape only the first 5 locations
+    ...
+Cleaning Phase
+Once scraping finishes, run:
+
+bash
+Copiar
+Editar
+python clean_scrapping.py
+This script will:
+
+Read scraped_data.xlsx.
+Identify and normalize email addresses (lowercase, remove extra quotes).
+Identify and normalize phone numbers (strip non-digit characters, up to 12 digits).
+Save the final data (original columns + new email and phone columns) to scraped_clean.xlsx.
+Output
+The scripts produce two Excel files in the same directory:
+
+scraped_data.xlsx
+
+Raw, scraped data containing columns like:
+CUIL
+Nombre
+Categoría
+Registro
+Localidad
+Barrio
+Multiple contacto_# columns
+scraped_clean.xlsx
+
+Cleaned version of the data with two additional fields:
+email
+phone
+Customization
+Location Filtering
+You can modify the location list or the loop within scrapping.py to scrape only specific locations.
+
+Wait Time Between Requests
+time.sleep(1) in scrapping.py controls how long the script waits after each page request. Adjust it to reduce server load or speed up scraping.
+
+Phone/Email Extraction Logic
+In clean_scrapping.py, you can adjust the regex or logic used to detect phone and email formats, if your data has unique formatting needs.
+
+Output Format
+If you prefer CSV, replace the to_excel calls with to_csv in both scripts:
+
+python
+Copiar
+Editar
+df.to_csv("scraped_data.csv", index=False)
+Limitations & Notes
+Website Policies
+Ensure compliance with the target site's terms of service. Scraping may be disallowed or subject to specific rules.
+
+Data Freshness
+The target website might change its layout or data. If that happens, the extraction logic may need to be updated.
+
+Performance
+This is a straightforward, non-parallel approach. For very large datasets, consider optimizing the script (e.g., running in parallel or caching data).
+
+Error Handling
+The current scripts handle some potential issues (like missing columns). You can extend them with more robust logging or exception handling as needed.
+
+License
+This project is open-source and available under an MIT License (or any license you choose to include). Feel free to modify and distribute it responsibly.
+
+Happy Scraping!
+If you have any questions or run into issues, please open an issue or pull request. Contributions are always welcome.
